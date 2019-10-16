@@ -1,0 +1,29 @@
+<launch>
+  <!-- Playback data -->
+  <node pkg="rosbag" type="play" name="rosbag_player" output="screen" args="--clock $(find waypoint_navigation)/data/recording_2019-10-16-14-28-42.bag"/>
+  
+  <include file="$(find turtlebot_gazebo)/launch/includes/kobuki.launch.xml">
+    <arg name="base" value="kobuki"/>
+    <arg name="stacks" value="hexagons"/>
+    <arg name="3d_sensor" value="kinect"/>
+  </include>
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="30.0" />
+  </node>
+
+  <!-- SLAM -->
+  <param name='use_sim_time' value='true' />
+  <param name='/slam_gmapping/angularUpdate' value='0.1' />
+  <param name='/slam_gmapping/linearUpdate' value='0.1' />
+  <param name='/slam_gmapping/lskip' value='10' />
+  <param name='/slam_gmapping/xmax' value='10' />
+  <param name='/slam_gmapping/xmin' value='-10' />
+  <param name='/slam_gmapping/ymax' value='10' />
+  <param name='/slam_gmapping/ymin' value='-10' />
+  <param name='/slam_gmapping/particles' value='80' />
+  <node pkg='gmapping' type='slam_gmapping' name='slam_gmapping' />
+
+  <!-- rviz -->
+  <node pkg='rviz' name='rviz' type='rviz' args="-d $(find waypoint_navigation)/rviz/config.rviz" />
+</launch>
