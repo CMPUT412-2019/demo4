@@ -1,0 +1,22 @@
+<launch>
+  <!-- Playback data -->
+  <node pkg="rosbag" type="play" name="rosbag_player" output="screen" args="--clock $(find waypoint_navigation)/data/realworld_2019-10-16-21-13-33.bag"/>
+  
+  <!-- for state publisher -->
+  <include file='$(find turtlebot_bringup)/launch/minimal.launch' />
+
+  <!-- SLAM -->
+  <param name='use_sim_time' value='true' />
+  <param name='/slam_gmapping/angularUpdate' value='0.1' />
+  <param name='/slam_gmapping/linearUpdate' value='0.1' />
+  <param name='/slam_gmapping/lskip' value='10' />
+  <param name='/slam_gmapping/xmax' value='10' />
+  <param name='/slam_gmapping/xmin' value='-10' />
+  <param name='/slam_gmapping/ymax' value='10' />
+  <param name='/slam_gmapping/ymin' value='-10' />
+  <param name='/slam_gmapping/particles' value='80' />
+  <node pkg='gmapping' type='slam_gmapping' name='slam_gmapping' />
+
+  <!-- rviz -->
+  <node pkg='rviz' name='rviz' type='rviz' args="-d $(find waypoint_navigation)/rviz/config.rviz" />
+</launch>
