@@ -35,11 +35,12 @@
   </node>
 
   <!-- Map server -->
-  <node name='map_server' type='map_server' pkg='map_server' args='$(find waypoint_navigation)/maps/map.yaml' />
+  <node name='map_server' type='map_server' pkg='map_server' args='$(find waypoint_navigation)/maps/sim/map.yaml' />
   
   <!-- Localization within the static map -->
   <node name='amcl' type='amcl' pkg='amcl' />
 
   <!-- Visualization -->
   <node pkg='rviz' name='rviz' type='rviz' args="-d $(find waypoint_navigation)/rviz/config.rviz" />
+
 </launch>

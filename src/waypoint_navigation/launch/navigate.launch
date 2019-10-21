@@ -1,0 +1,20 @@
+<launch>
+  <!-- Turtlebot -->
+  <include file='$(find turtlebot_bringup)/launch/minimal.launch' />
+  <include file='$(find turtlebot_navigation)/launch/amcl_demo.launch'>
+    <arg name='map_file' value='$(find waypoint_navigation)/maps/realworld/map.yaml' />
+  </include>
+
+  <!-- Teleop -->
+  <node name='joy' pkg='joy' type='joy_node' />
+  <include file="$(find turtlebot_teleop)/launch/logitech.launch" />
+
+  <!-- Visualization -->
+  <node pkg='rviz' name='rviz' type='rviz' args="-d $(find waypoint_navigation)/rviz/gather_coordinates.rviz" />
+
+  <!-- Control node -->
+  <node name='navigate' pkg='waypoint_navigation' type='navigate.py' output='screen'>
+    <remap from='joy' to='joy' />
+    <remap from='move_base' to='move_base' />
+  </node>
+</launch>

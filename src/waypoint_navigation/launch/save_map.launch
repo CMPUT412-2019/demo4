@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="waypoint_navigation" type="save_map.py" name="save_map" />
+</launch>
